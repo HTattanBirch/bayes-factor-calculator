@@ -1,0 +1,12 @@
+name: bayes-factor-calculator
+title: bayes-factor-calculator
+username:
+account: harry-tattan-birch
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3581492
+bundleId: 4180602
+url: https://harry-tattan-birch.shinyapps.io/bayes-factor-calculator/
+when: 1612449377.32539
+asMultiple: FALSE
+asStatic: FALSE
