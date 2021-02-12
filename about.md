@@ -1,15 +1,29 @@
 ---
 title: "about"
 author: "Harry Tattan-Birch"
-date: "03/02/2021"
+date: "12/02/2021"
 output: html_document
 runtime: shiny
 ---
 
+#### Creators
+This web app was created by Harry Tattan-Birch, with input from Jamie Brown, Robert West and Zoltan Dienes. Special thanks to Bence Palfi and Zoltan Dienes, who created the function used here to calculate Bayes factors (details below).
+
+***
+
+#### Bugs
+Please report any bugs on the [Github issues page](https://github.com/HTattanBirch/bayes-factor-calculator/issues). Alternatively, you can email me at [h.tattan-birch@ucl.ac.uk](h.tattan-birch@ucl.ac.uk) if you'd like to suggest specific improvements to this web app. 
+
+***
+
+#### Open source
+All the code used to generate this web app is freely available on [Github](https://github.com/HTattanBirch/bayes-factor-calculator).
+
+***
 
 #### R code for calculator
 
-The following R code was used for this calculator. It was written by Bence Palfi and Zoltan Dienes.
+The following R code was used to calculate Bayes factors. It was created by Bence Palfi and Zoltan Dienes.
 
 ```{r setup}
 

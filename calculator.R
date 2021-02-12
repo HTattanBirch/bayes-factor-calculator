@@ -297,13 +297,23 @@ main_panel_ui <- mainPanel(
           tabPanel("Output",
              
              # Heading: Heading with horizontal rule <hr> to match interpretation.md
-             HTML("<hr> <h4>Your Bayes factor is:</h4>"),
+             HTML("<hr> <h4>Output from calculator</h4>"),
              
              # Code: Code text letting user know when ready for calculation.
-             verbatimTextOutput('contents'),
+             #verbatimTextOutput('contents'),
+             
+             # Text: explaining how use calculator.
+             #HTML("Enter results from your study and specifcy your hypothesis. Then press 'calculate' to show your Bayes factor below."),
              
              # Bf output: Table of the Bayes factor calculated from Bf
-             tableOutput('tabledata')),
+             div(tableOutput('tabledata'), digits=3,style="font-size:150%")#,
+             
+             # Explanation
+             #HTML("<hr> <h4>Confused?<h4>\n"),
+             
+             #HTML("Click the 'interpretation' tab for help understanding your Bayes factor.")
+             ),
+             
           
           # Interpretation: Markdown file explaining how to interpret Bayes factor
           tabPanel("Interpretation", div(includeMarkdown("interpretation.md"), 
@@ -359,9 +369,10 @@ ui <- fluidPage(
     title = span(tagList(#icon("calculator"), 
                     span(" Bayes", style='color: #1a75ff; font-size: 18px; font-family: "Press Start 2P";'),
                     span("Factor", style='font-size: 18px; font-family: "Press Start 2P"'),
-                    span(".info", style='font-size: 10px; font-family: "Press Start 2P"'))),
+                    span("calc", style='font-size: 10px; font-family: "Press Start 2P"')
+                    )),
     
-    windowTitle = "BayesFactor.info - Calculate Bayes Factors",
+    windowTitle = "BayesFactor - Calculate Bayes Factors",
     # Calculator tab: Contains calculator and interpretation markdown
     tabPanel("Calculator", 
              
@@ -447,13 +458,13 @@ server <- function(input, output, session) {
   
   ### Status
   # Gives status, whether calculation complete or ready for calculation. 
-  output$contents <- renderPrint({
-    if (input$submitbutton>0) { 
-      isolate("Calculation complete.") 
-    } else {
-      return("Server is ready for calculation.")
-    }
-  })
+  #output$contents <- renderPrint({
+  #  if (input$submitbutton>0) { 
+  #    isolate("Calculation complete.") 
+  #  } else {
+  #    return("Server is ready for calculation.")
+  #  }
+  #})
   
   ### Output
   # Prints Bayes factor in a table
@@ -474,5 +485,5 @@ server <- function(input, output, session) {
 #                                              #
 ################################################
 
-runApp(shinyApp(ui = ui, server = server), launch.browser = TRUE)
-#shinyApp(ui = ui, server = server)
+#runApp(shinyApp(ui = ui, server = server), launch.browser = TRUE)
+shinyApp(ui = ui, server = server)
