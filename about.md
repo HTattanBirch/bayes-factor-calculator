@@ -9,7 +9,7 @@ runtime: shiny
 
 #### R code for calculator
 
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+The following R code was used for this calculator. It was written by Bence Palfi and Zoltan Dienes.
 
 ```{r setup}
 
