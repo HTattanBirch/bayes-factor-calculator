@@ -325,7 +325,10 @@ main_panel_ui <- mainPanel(
 # formatting information, such as the theme used, webpage title, position
 # of tabs, fonts, and "about" markdown file.
 
+
 ui <- fluidPage(
+  
+  useShinyjs(),
   
   # Theme used: paper
   theme = shinytheme("paper"), 
@@ -342,19 +345,23 @@ ui <- fluidPage(
       @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
       .navbar-nav {float: right;}
       * {font-family: "Montserrat", sans-serif};'
-    ))),
+    )),
+    # Favicon for browser
+    tags$link(rel = "shortcut icon", href = "https://icons.iconarchive.com/icons/martz90/circle/128/calculator-icon.png")
+    ),
   
-  useShinyjs(),
+  
   
   # Main page
   navbarPage(
     
     # Logo: Formatting of logo. Option for calculator icon or logo
     title = span(tagList(#icon("calculator"), 
-                    span(" Bayes", style='color: blue; font-size: 18px; font-family: "Press Start 2P";'),
+                    span(" Bayes", style='color: #1a75ff; font-size: 18px; font-family: "Press Start 2P";'),
                     span("Factor", style='font-size: 18px; font-family: "Press Start 2P"'),
                     span(".info", style='font-size: 10px; font-family: "Press Start 2P"'))),
     
+    windowTitle = "BayesFactor.info - Calculate Bayes Factors",
     # Calculator tab: Contains calculator and interpretation markdown
     tabPanel("Calculator", 
              
@@ -467,4 +474,5 @@ server <- function(input, output, session) {
 #                                              #
 ################################################
 
-shinyApp(ui = ui, server = server)
+runApp(shinyApp(ui = ui, server = server), launch.browser = TRUE)
+#shinyApp(ui = ui, server = server)
