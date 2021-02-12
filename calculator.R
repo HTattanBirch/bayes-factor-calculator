@@ -78,7 +78,9 @@ library(shinythemes) # Used to provide theme
 library(shinyjs) # Used to hide/show specific options
 library(shinydashboard) 
 library(shinyBS)
+
 library(knitr)
+
 
 
 
@@ -313,7 +315,6 @@ main_panel_ui <- mainPanel(
              
              #HTML("Click the 'interpretation' tab for help understanding your Bayes factor.")
              ),
-             
           
           # Interpretation: Markdown file explaining how to interpret Bayes factor
           tabPanel("Interpretation", div(includeMarkdown("interpretation.md"), 
@@ -336,10 +337,11 @@ main_panel_ui <- mainPanel(
 # of tabs, fonts, and "about" markdown file.
 
 
+
 ui <- fluidPage(
   
   useShinyjs(),
-  
+
   # Theme used: paper
   theme = shinytheme("paper"), 
   
@@ -355,6 +357,7 @@ ui <- fluidPage(
       @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
       .navbar-nav {float: right;}
       * {font-family: "Montserrat", sans-serif};'
+
     )),
     # Favicon for browser
     tags$link(rel = "shortcut icon", href = "https://icons.iconarchive.com/icons/martz90/circle/128/calculator-icon.png")
@@ -373,6 +376,7 @@ ui <- fluidPage(
                     )),
     
     windowTitle = "BayesFactor - Calculate Bayes Factors",
+
     # Calculator tab: Contains calculator and interpretation markdown
     tabPanel("Calculator", 
              
@@ -465,6 +469,7 @@ server <- function(input, output, session) {
   #    return("Server is ready for calculation.")
   #  }
   #})
+
   
   ### Output
   # Prints Bayes factor in a table
@@ -484,6 +489,7 @@ server <- function(input, output, session) {
 #              Section 7. Run app              #
 #                                              #
 ################################################
+
 
 #runApp(shinyApp(ui = ui, server = server), launch.browser = TRUE)
 shinyApp(ui = ui, server = server)

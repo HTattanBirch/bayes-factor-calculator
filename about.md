@@ -6,6 +6,7 @@ output: html_document
 runtime: shiny
 ---
 
+
 #### Creators
 This web app was created by Harry Tattan-Birch, with input from Jamie Brown, Robert West and Zoltan Dienes. Special thanks to Bence Palfi and Zoltan Dienes, who created the function used here to calculate Bayes factors (details below).
 
@@ -24,6 +25,7 @@ All the code used to generate this web app is freely available on [Github](https
 #### R code for calculator
 
 The following R code was used to calculate Bayes factors. It was created by Bence Palfi and Zoltan Dienes.
+
 
 ```{r setup}
 
