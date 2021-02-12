@@ -39,7 +39,7 @@ P-values do not allow this, as they conflate evidence for no effect and inconclu
 
 ***
 
-^[1] This convention was suggested by [Jeffreys in 1939](https://scholar.google.com/scholar_lookup?title=Theory+of+probability&author=H+Jeffreys&publication_year=1939&), and is [useful](https://psyarxiv.com/bua5n/) for journals that use a convention of p<.05. However, there is no deterministic relationship between Bayes factors and p-values.
+^[1] This convention was first suggested by [Jeffreys in 1939](https://scholar.google.com/scholar_lookup?title=Theory+of+probability&author=H+Jeffreys&publication_year=1939&), and is [useful](https://psyarxiv.com/bua5n/) for journals that use a convention of p<.05. However, there is no deterministic relationship between Bayes factors and p-values.
 
 ^[2] For other solutions to this problem, see  [Lakens et al. 2018](https://psyarxiv.com/qtzwr/).
 

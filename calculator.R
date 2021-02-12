@@ -355,8 +355,9 @@ ui <- fluidPage(
       HTML(
       '@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-      .navbar-nav {float: right;}
+      
       * {font-family: "Montserrat", sans-serif};'
+      #.navbar-nav {float: right;}
 
     )),
     # Favicon for browser

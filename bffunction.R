@@ -4,7 +4,7 @@
 # Bence Palfi, Zoltan Dienes
 
 # Notes: "This function has options for a likelihood that is either normal- or t-distributed, 
-#        and a model of H1 that is either uniform, or normal or t- (or Cauchy-) distributed, 
+#        and a model of H1 that is either uniform, or normal or t- (or Cauchy-)distributed, 
 #        with the normal/t/cauchy models being 1- or 2-tailed. In addition, the 1-tailed models
 #        are compatible with any mode (unlike the Dienes, 2008, calculator that assumed that 
 #        1-tailed models had a mode of zero). Thanks to Bence Palfi for pulling various bits of
