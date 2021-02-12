@@ -112,7 +112,7 @@ side_inputs_ui <- sidebarPanel(
              HTML("<h4>Sample results</h4>"),
              
       # Likelihood: Select if sample t- or normal distributed likelihood function
-      conditionalPanel('input.detail === true',      # Only show if detailed options selected
+      conditionalPanel('input.detail === true  && input.odds_question === false',      # Only show if detailed options selected
                 radioButtons("likelihood", "Likelihood Distribution", 
                                      c("Normal" = "normal", "Student's t" = "t"))),
   
@@ -166,24 +166,42 @@ side_inputs_ui <- sidebarPanel(
                  "Uniform" = "uniform"), selected = c("normal"))),
   
   # Show uniform options if selected 
-  conditionalPanel('input.modeloftheory == "uniform"',box(id="uniformshow",width="800px",
+  conditionalPanel('input.modeloftheory == "uniform"',
+                   
+                   
+      # No OR: uniform when there is no OR option selected 
+      conditionalPanel('input.odds_question === false', box(id="uniformshow",width="800px",
                                                           
       # Uniform lower: Lower boundary of uniform model of H1
-      numericInput("lower", label = tagList(
-               tags$span("Lower boundary of hypothesis"), 
-               tags$span(icon("info-circle"), id = "lower_icon")), value = 0),
+               numericInput("lower", label = tagList(
+                          tags$span("Lower boundary of hypothesis"), 
+                          tags$span(icon("info-circle"), id = "lower_icon")), value = 0),
       
       # Uniform upper: Upper boundary of uniform model of H1
-      numericInput("upper", label = tagList(
-               tags$span("Upper boundary of hypothesis"), 
-               tags$span(icon("info-circle"), id = "upper_icon")), value = 1))),
+               numericInput("upper", label = tagList(
+                          tags$span("Upper boundary of hypothesis"), 
+                          tags$span(icon("info-circle"), id = "upper_icon")), value = 1))),
+      
+      conditionalPanel('input.odds_question === true', box(id="odds_uniform_hypothesis",width="800px",
+               # Uniform lower: Lower boundary of uniform model of H1
+               numericInput("or_lower", label = tagList(
+                          tags$span("Lower odds/risk ratio of hypothesis"), 
+                          tags$span(icon("info-circle"), id = "or_lower_icon")), value = 1),
+                                                           
+               # Uniform upper: Upper boundary of uniform model of H1
+               numericInput("or_upper", label = tagList(
+                          tags$span("Upper odds/risk ratio of hypothesis"), 
+                          tags$span(icon("info-circle"), id = "or_upper_icon")), value = 2)))),
+                                                           
   
   # Show options for normal, t or Cauchy if selected
   conditionalPanel('input.modeloftheory != "uniform"',box(id="normtcaushow",width="800px",
                                                           
       # Mode H1: Only show mode of H1 in detailed options
       conditionalPanel('input.detail === true',
-      numericInput("modeoftheory", label = "Mode of hypothesis", value = 0))),
+      numericInput("modeoftheory", label = tagList(
+        tags$span("Mode of hypothesis"), 
+        tags$span(icon("info-circle"), id = "modeoftheory_icon")), value = 0))),
       
       # OR H1: Show OR input if option selected
       conditionalPanel('input.odds_question === true', box(id="odds_hypothesis",width="800px",
@@ -241,7 +259,7 @@ side_inputs_ui <- sidebarPanel(
   
   # OR Scale of theory
   bsTooltip("odds_scaleoftheory_icon", 
-            title="Expected odds/risk, used as scale (e.g. standard deviation) for model of alternative hypothesis.", placement = "right", trigger = "hover",
+            title="Expected odds/risk ratio, used as scale (e.g. standard deviation) for model of alternative hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
              
   # Model of hypothesis
@@ -256,6 +274,21 @@ side_inputs_ui <- sidebarPanel(
   # Uniform upper
   bsTooltip("upper_icon", 
             title="Maximum plausible effect under alternative hypothesis.", placement = "right", trigger = "hover",
+            options = NULL),
+  
+  # OR Uniform lower
+  bsTooltip("or_lower_icon", 
+            title="Minimum plausible odds/risk ratio under alternative hypothesis. If you expect positive effects, set this to 1.", placement = "right", trigger = "hover",
+            options = NULL),
+  
+  # OR Uniform upper OR
+  bsTooltip("or_upper_icon", 
+            title="Maximum plausible odds/risk ratio under alternative hypothesis. If you expect negative effects, set this to 1.", placement = "right", trigger = "hover",
+            options = NULL),
+  
+  # Mode of theory
+  bsTooltip("modeoftheory_icon", 
+            title="Mode of distribution of hypothesis, usually 0. If using OR/RR, note this is on log-odds scale so 0 is equivalent to OR=1.", placement = "right", trigger = "hover",
             options = NULL),
   
   # Scale of theory
@@ -434,8 +467,9 @@ server <- function(input, output, session) {
       dfdata=input$dfdata,
       likelihood = input$likelihood,
       modeloftheory= input$modeloftheory,
-      lower =input$lower,
-      upper=input$upper,
+      # Log if using OR
+      lower = ifelse(input$odds_question == FALSE, input$lower, log(input$or_lower)),
+      upper = ifelse(input$odds_question == FALSE, input$upper, log(input$or_upper)),
       modeoftheory = input$modeoftheory,
       
       # Scale of theory: Scale of theory | Expected OR under H1
