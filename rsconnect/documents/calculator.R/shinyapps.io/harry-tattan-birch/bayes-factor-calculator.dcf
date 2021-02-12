@@ -5,8 +5,8 @@ account: harry-tattan-birch
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3581492
-bundleId: 4214503
+bundleId: 4214771
 url: https://harry-tattan-birch.shinyapps.io/bayes-factor-calculator/
-when: 1613132114.17455
+when: 1613137443.5862
 asMultiple: FALSE
 asStatic: FALSE
