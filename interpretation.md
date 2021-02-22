@@ -7,9 +7,9 @@ runtime: shiny
 ***
 
 #### How do you interpret these results?
-The Bayes factor shows how much more or less likely your data are under the alternative hypothesis---which you specified on the left---compared with a null hypothesis of zero effect. 
+The Bayes factor shows how much more or less probable your data are under the alternative hypothesis---which you specified on the left---compared with a null hypothesis of zero effect. 
 
-For example, a Bayes factor of 50 means your data were fifty times  *more* likely under the alternative hypothesis than the null, which provides strong relative evidence for there being an effect. Conversely, a Bayes factor of 1/50 (0.02) means your data were fifty times  *less* likely under the alternative hypothesis than the null, which provides strong relative evidence for no effect. Finally, a Bayes factor of 1 shows your data were *equally* likely under both the alternative and null hypotheses, so they provide no relative evidence at all.
+For example, a Bayes factor of 50 means your data were fifty times  *more* probable under the alternative hypothesis than the null, which provides strong relative evidence for there being an effect. Conversely, a Bayes factor of 1/50 (0.02) means your data were fifty times  *less* probable under the alternative hypothesis than the null, which provides strong relative evidence for no effect. Finally, a Bayes factor of 1 shows your data were *equally* likely under both the alternative and null hypotheses, so they provide no relative evidence at all.
 
 
 While Bayes factors are [continuous measures of evidence](https://psyarxiv.com/bua5n/), the following conventions can be used for journals that require p-values of <.05:^[1] 
@@ -27,7 +27,7 @@ In addition, Bayes factors of greater than 10 provide strong evidence for an eff
 
 #### Why use Bayes factors?
 
-The Bayes factor tells you how much more likely your data are under one hypothesis over another. It is the Bayesian equivalent of significance testing. Importantly, it answers a question that p-values from null-hypothesis significance tests cannot: 
+The Bayes factor tells you how much more probable your data are under one hypothesis over another. It is the Bayesian equivalent of significance testing. Importantly, it answers a question that p-values from null-hypothesis significance tests cannot: 
 
 > Do my data provide evidence for no effect?
 

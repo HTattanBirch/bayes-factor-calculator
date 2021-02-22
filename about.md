@@ -6,6 +6,13 @@ output: html_document
 runtime: shiny
 ---
 
+#### About Bayes factors
+
+Bayes factors are being increasingly used to assess how far a given set of data support one hypothesis over another. This online tool allows users to calculate Bayes factors from information available from standard statistical packages. It calculates Bayes factors in the case when users want to assess whether they have an effect within a specified range versus no effect.
+
+A common use of Bayes factors is to distinguish between evidence for no effect and lack of clear evidence for an effect. Classical statistics does not allow such a distinction but it is very common for researchers to claim 'no effect' or 'no evidence for an effect' based on not finding a statistically significant difference; this is wrong and should never be done. But you can calculate a Bayes factor to assess the level of support for the 'no effect' claim.
+
+***
 
 #### Creators
 This web app was created by Harry Tattan-Birch, with input from Jamie Brown, Robert West and Zoltan Dienes. Special thanks to Bence Palfi and Zoltan Dienes, who created the function used here to calculate Bayes factors (details below).

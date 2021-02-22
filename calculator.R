@@ -4,7 +4,7 @@
 # R Shiny calculator: Harry Tattan-Birch
 # Amendments: Robert West, Jamie Brown, Zoltan Dienes
 # Bf function: Bence Palfi, Zoltan Dienes
-# Version: 1.0
+# Version: 1
 
 
 ################################################
@@ -78,7 +78,6 @@ library(shinythemes) # Used to provide theme
 library(shinyjs) # Used to hide/show specific options
 library(shinydashboard) 
 library(shinyBS)
-
 library(knitr)
 
 
