@@ -199,10 +199,10 @@ side_inputs_ui <- sidebarPanel(
   conditionalPanel('input.modeloftheory != "uniform"',box(id="normtcaushow",width="800px",
                                                           
       # Mode H1: Only show mode of H1 in detailed options
-      conditionalPanel('input.detail === true',
+      conditionalPanel('input.detail === true && input.odds_question === false',
       numericInput("modeoftheory", label = tagList(
-        tags$span("Mode of hypothesis"), 
-        tags$span(icon("info-circle"), id = "modeoftheory_icon")), value = 0))),
+        tags$span("Mode of distribution of hypothesis"), 
+        tags$span(icon("info-circle"), id = "modeoftheory_icon")), value = 0)),
       
       # OR H1: Show OR input if option selected
       conditionalPanel('input.odds_question === true', box(id="odds_hypothesis",width="800px",
@@ -223,18 +223,18 @@ side_inputs_ui <- sidebarPanel(
       # Tails: Number of tails, negate if predicts negative
       conditionalPanel('input.odds_question === false', box(id="tails_withoutodds",width="800px", 
                 radioButtons("tails", label = tagList(
-                         tags$span("Does hypothesis predict positive or negative effect?"), 
+                         tags$span("Does your hypothesis predict mean differences that are positive, negative, or either?"), 
                          tags$span(icon("info-circle"), id = "tails_icon")), 
                                  c("Positive (1-tailed)" = "pos",
                                  "Negative (1-tailed)" = "neg",
                                  "Either (2-tailed)" = "eit"), selected = c("eit")))),
       conditionalPanel('input.odds_question === true', box(id="tails_withodds",width="800px", 
-                radioButtons("tails", label = tagList(
-                         tags$span("Does hypothesis predict an odds/risk ratio greater than 1, less than 1, or either?"), 
+                radioButtons("odds_tails", label = tagList(
+                         tags$span("Does your hypothesis predict an odds/risk ratio greater than 1, less than 1, or either?"), 
                          tags$span(icon("info-circle"), id = "oddstails_icon")), 
                                   c("Greater than 1 (1-tailed)" = "pos",
                                   "Less than 1 (1-tailed)" = "neg",
-                                  "Either (2-tailed)" = "eit"), selected = c("eit")))),
+                                  "Either (2-tailed)" = "eit"), selected = c("eit")))))),
 
   ###  TOOLTIPS  ###
   bsTooltip("detailed_icon", 
@@ -262,59 +262,59 @@ side_inputs_ui <- sidebarPanel(
             options = NULL),
   # OR
   bsTooltip("odds_icon", 
-            title="Enter odds/risk ratio from study. This will be converted into log-odds/log-proportions.", placement = "right", trigger = "hover",
+            title="Enter odds/risk ratio from study. (Detail: This will be converted into log-odds/log-proportions)", placement = "right", trigger = "hover",
             options = NULL),
   # OR Upper
   bsTooltip("odds_upper_icon", 
-            title="Upper 95% confidence interval of odds/risk ratio from study. Used to calculate standard error.", placement = "right", trigger = "hover",
+            title="Upper 95% confidence interval of odds/risk ratio from study. (Detail: This will be used with odds/risk ratio above to calculate standard error)", placement = "right", trigger = "hover",
             options = NULL), 
   
   # OR Scale of theory
   bsTooltip("odds_scaleoftheory_icon", 
-            title="Expected odds/risk ratio, used as scale (e.g. standard deviation) for model of alternative hypothesis.", placement = "right", trigger = "hover",
+            title="Expected odds/risk ratio, used as scale/standard deviation for model of your hypothesis. (Detail: This converts OR/RR into log-odds/log-proportions and takes the absolute value as the scale)", placement = "right", trigger = "hover",
             options = NULL),
              
   # Model of hypothesis
   bsTooltip("modeloftheory_icon", 
-            title="Use uniform if maximum effect exists. Compared with normal, t & Cauchy give more probability to extreme effects.", placement = "right", trigger = "hover",
+            title="You can use uniform if maximum effect exists. Compared with normal, t & Cauchy give more probability to extreme effects.", placement = "right", trigger = "hover",
             options = NULL),
   
   # Uniform lower
   bsTooltip("lower_icon", 
-            title="Zero or minimum meaningful effect size (e.g. mean difference) under the alternative hypothesis.", placement = "right", trigger = "hover",
+            title="Zero or minimum meaningful effect size (e.g. mean difference) under the your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
   # Uniform upper
   bsTooltip("upper_icon", 
-            title="Maximum plausible effect under alternative hypothesis.", placement = "right", trigger = "hover",
+            title="Maximum plausible effect under your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
   
   # OR Uniform lower
   bsTooltip("or_lower_icon", 
-            title="Minimum plausible odds/risk ratio under alternative hypothesis. If you expect positive effects, set this to 1.", placement = "right", trigger = "hover",
+            title="Minimum plausible odds/risk ratio under your hypothesis. If you expect positive effects, set this to 1.", placement = "right", trigger = "hover",
             options = NULL),
   
   # OR Uniform upper OR
   bsTooltip("or_upper_icon", 
-            title="Maximum plausible odds/risk ratio under alternative hypothesis. If you expect negative effects, set this to 1.", placement = "right", trigger = "hover",
+            title="Maximum plausible odds/risk ratio under your hypothesis. If you expect negative effects, set this to 1.", placement = "right", trigger = "hover",
             options = NULL),
   
   # Mode of theory
   bsTooltip("modeoftheory_icon", 
-            title="Mode of distribution of hypothesis, usually 0. If using OR/RR, note this is on log-odds scale so 0 is equivalent to OR=1.", placement = "right", trigger = "hover",
+            title="If non-zero, hypothesised mean difference should instead be interpreted as scale/standard deviation of hypothesis", placement = "right", trigger = "hover",
             options = NULL),
   
   # Scale of theory
   bsTooltip("scaleoftheory_icon", 
-            title="Expected mean difference, used as scale (e.g. standard deviation) for model of alternative hypothesis.", placement = "right", trigger = "hover",
+            title="The absolute value of this will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
   
   # One of two tailed??
   bsTooltip("tails_icon", 
-            title="One-tail distribution for positive/negative, two-tail for either. Mean difference negated if negative selected.", placement = "right", trigger = "hover",
+            title="Use either for 2-tailed tests, when you think there is a difference between conditions but do not know which direction it will go. (Detail: sample mean difference negated if negative selected)", placement = "right", trigger = "hover",
             options = NULL),
   
   bsTooltip("oddstails_icon", 
-            title="Select either if you'd like a two-tailed test, where you model the hypothesis as a normal with standard deviation equal to the hypothesised odds/risk ratio.", placement = "right", trigger = "hover",
+            title="Use either for 2-tailed tests, when you do not know which direction the association will go. (Detail: log of sample OR/RR negated if negative selected)", placement = "right", trigger = "hover",
             options = NULL),
   
   ###  SUBMIT  ###
@@ -479,7 +479,7 @@ server <- function(input, output, session) {
                         # Negate mean difference if negative hypothesised effect in tails
                         ifelse(input$tails == "neg", -input$obtained, input$obtained),
                         # Negate log-odds if negative hypothesised effect in tails
-                        ifelse(input$tails == "neg",-log(input$odds), log(input$odds))),
+                        ifelse(input$odds_tails == "neg",-log(input$odds), log(input$odds))),
       dfdata=input$dfdata,
       likelihood = input$likelihood,
       modeloftheory= input$modeloftheory,
@@ -496,7 +496,9 @@ server <- function(input, output, session) {
              abs(log(input$odds_scaleoftheory))),
       
       # Two tailed if tails is "either", one tailed if "positive" or "negative"
-      tail = ifelse(input$tails=="eit",2,1),
+      tail = ifelse(input$odds_question == FALSE,
+                    ifelse(input$tails=="eit",2,1),
+                    ifelse(input$odds_tails=="eit",2,1)),
       dftheory = input$dftheory)
     
     # Put Bf result in data frame
