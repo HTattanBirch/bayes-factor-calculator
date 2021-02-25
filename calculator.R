@@ -107,7 +107,9 @@ side_inputs_ui <- sidebarPanel(
   ###  INPUTS  ###
              
       # Detailed Options: Provide detailed options, not default normal centered on zero
-      checkboxInput(inputId = "detail", label = "Detailed options",value=FALSE),
+      checkboxInput(inputId = "detail", label = tagList(
+        tags$span("Detailed options"), 
+        tags$span(icon("info-circle"), id = "detailed_icon")),value=FALSE),
              HTML("<h4>Sample results</h4>"),
              
       # Likelihood: Select if sample t- or normal distributed likelihood function
@@ -153,7 +155,7 @@ side_inputs_ui <- sidebarPanel(
                            tags$span(icon("info-circle"), id = "dfdata_icon")), value = 1))),
   
   # Heading 2: Section specifying alternative hypothesis
-  HTML("<br> <h4>Alternative hypothesis</h4>"),
+  HTML("<br> <h4>Hypothesis under test</h4>"),
   
       # H1 Model: Selection for H1 distribution, only if detailed options selected
       conditionalPanel('input.detail === true',radioButtons("modeloftheory", tagList(
@@ -208,7 +210,7 @@ side_inputs_ui <- sidebarPanel(
                          tags$span("Hypothesised odds/risk ratio"), 
                          tags$span(icon("info-circle"), id = "odds_scaleoftheory_icon")), value = 1.5))),
       
-      # No odds: Show scale of H1 if OR optinos not selected
+      # No odds: Show scale of H1 if OR options not selected
       conditionalPanel('input.odds_question === false', box(id="mean_hypothesis",width="800px",
                 numericInput("scaleoftheory", label = tagList(
                          tags$span("Hypothesised mean difference"), 
@@ -219,15 +221,26 @@ side_inputs_ui <- sidebarPanel(
                 numericInput("dftheory", label = "Degrees of freedom of hypothesis", value = 1))),
       
       # Tails: Number of tails, negate if predicts negative
-      radioButtons("tails", label = tagList(
-                tags$span("Does hypothesis predict positive or negative effect?"), 
-                tags$span(icon("info-circle"), id = "tails_icon")), 
-                          c("Positive" = "pos",
-                          "Negative" = "neg",
-                          "Either" = "eit"), selected = c("eit"))),
+      conditionalPanel('input.odds_question === false', box(id="tails_withoutodds",width="800px", 
+                radioButtons("tails", label = tagList(
+                         tags$span("Does hypothesis predict positive or negative effect?"), 
+                         tags$span(icon("info-circle"), id = "tails_icon")), 
+                                 c("Positive (1-tailed)" = "pos",
+                                 "Negative (1-tailed)" = "neg",
+                                 "Either (2-tailed)" = "eit"), selected = c("eit")))),
+      conditionalPanel('input.odds_question === true', box(id="tails_withodds",width="800px", 
+                radioButtons("tails", label = tagList(
+                         tags$span("Does hypothesis predict an odds/risk ratio greater than 1, less than 1, or either?"), 
+                         tags$span(icon("info-circle"), id = "oddstails_icon")), 
+                                  c("Greater than 1 (1-tailed)" = "pos",
+                                  "Less than 1 (1-tailed)" = "neg",
+                                  "Either (2-tailed)" = "eit"), selected = c("eit")))),
 
   ###  TOOLTIPS  ###
-      
+  bsTooltip("detailed_icon", 
+            title="Click here if you want to fine tune how you specify your findings and hypothesis", placement = "right", trigger = "hover",
+            options = NULL),
+  
   # Mean diff
   bsTooltip("obtained_icon", 
             title="Mean difference between conditions. For regression and GLMs, this is the coefficient B.", placement = "right", trigger = "hover",
@@ -300,6 +313,10 @@ side_inputs_ui <- sidebarPanel(
             title="One-tail distribution for positive/negative, two-tail for either. Mean difference negated if negative selected.", placement = "right", trigger = "hover",
             options = NULL),
   
+  bsTooltip("oddstails_icon", 
+            title="Select either if you'd like a two-tailed test, where you model the hypothesis as a normal with standard deviation equal to the hypothesised odds/risk ratio.", placement = "right", trigger = "hover",
+            options = NULL),
+  
   ###  SUBMIT  ###
   
   actionButton("submitbutton", 
@@ -337,7 +354,7 @@ main_panel_ui <- mainPanel(
              #verbatimTextOutput('contents'),
              
              # Text: explaining how use calculator.
-             #HTML("Enter results from your study and specifcy your hypothesis. Then press 'calculate' to show your Bayes factor below."),
+             #HTML("Enter results from your study and specify your hypothesis. Then press 'calculate' to show your Bayes factor below."),
              
              # Bf output: Table of the Bayes factor calculated from Bf
              div(tableOutput('tabledata'), digits=3,style="font-size:150%")#,
@@ -405,7 +422,7 @@ ui <- fluidPage(
     title = span(tagList(#icon("calculator"), 
                     span(" Bayes", style='color: #1a75ff; font-size: 18px; font-family: "Press Start 2P";'),
                     span("Factor", style='font-size: 18px; font-family: "Press Start 2P"'),
-                    span("calc", style='font-size: 10px; font-family: "Press Start 2P"')
+                    span(".info", style='font-size: 10px; font-family: "Press Start 2P"')
                     )),
     
     windowTitle = "BayesFactor - Calculate Bayes Factors",
