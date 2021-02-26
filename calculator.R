@@ -212,9 +212,14 @@ side_inputs_ui <- sidebarPanel(
       
       # No odds: Show scale of H1 if OR options not selected
       conditionalPanel('input.odds_question === false', box(id="mean_hypothesis",width="800px",
+                conditionalPanel('input.modeoftheory === 0', box(id="zero_mean_hypothesis",width="800px",
                 numericInput("scaleoftheory", label = tagList(
                          tags$span("Hypothesised mean difference"), 
                          tags$span(icon("info-circle"), id = "scaleoftheory_icon")), value = 1))),
+                conditionalPanel('input.modeoftheory !== 0', box(id="non_zero_mean_hypothesis",width="800px",
+                numericInput("non_zero_scaleoftheory", label = tagList(
+                         tags$span("Scale of Hypothesis"), 
+                         tags$span(icon("info-circle"), id = "non_zero_scaleoftheory_icon")), value = 1))))),
       
       # DF H1: Degrees of freedom of H1, only if t-distribution selected for H1 model
       conditionalPanel('input.modeloftheory == "t"',box(id="tshow",width="800px",
@@ -307,14 +312,18 @@ side_inputs_ui <- sidebarPanel(
   bsTooltip("scaleoftheory_icon", 
             title="The absolute value of this will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
+  # If non-zero mode
+  bsTooltip("non_zero_scaleoftheory_icon", 
+            title="This will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
+            options = NULL),
   
   # One of two tailed??
   bsTooltip("tails_icon", 
-            title="Use either for 2-tailed tests, when you think there is a difference between conditions but do not know which direction it will go. (Detail: sample mean difference negated if negative selected)", placement = "right", trigger = "hover",
+            title="Use either for 2-tailed tests, when your theory predicts a difference between conditions that could go in either direction. (Detail: sample mean difference negated if negative selected)", placement = "right", trigger = "hover",
             options = NULL),
   
   bsTooltip("oddstails_icon", 
-            title="Use either for 2-tailed tests, when you do not know which direction the association will go. (Detail: log of sample OR/RR negated if negative selected)", placement = "right", trigger = "hover",
+            title="Use either for 2-tailed tests, when your theory predicts an association that could go in either direction. (Detail: log of sample OR/RR negated if negative selected)", placement = "right", trigger = "hover",
             options = NULL),
   
   ###  SUBMIT  ###
@@ -404,7 +413,7 @@ ui <- fluidPage(
       HTML(
       '@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-      
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap");
       * {font-family: "Montserrat", sans-serif};'
       #.navbar-nav {float: right;}
 
@@ -492,7 +501,7 @@ server <- function(input, output, session) {
       scaleoftheory = ifelse(
              input$odds_question == FALSE, 
              # Taking absolute value as direction sorted by input$tails
-             abs(input$scaleoftheory),
+             ifelse(input$modeoftheory != 0, abs(input$scaleoftheory),abs(input$non_zero_scaleoftheory)),
              abs(log(input$odds_scaleoftheory))),
       
       # Two tailed if tails is "either", one tailed if "positive" or "negative"
