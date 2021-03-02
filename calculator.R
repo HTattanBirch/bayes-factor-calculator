@@ -501,7 +501,7 @@ server <- function(input, output, session) {
       scaleoftheory = ifelse(
              input$odds_question == FALSE, 
              # Taking absolute value as direction sorted by input$tails
-             ifelse(input$modeoftheory != 0, abs(input$scaleoftheory),abs(input$non_zero_scaleoftheory)),
+             ifelse(input$modeoftheory != 0 & input$detail==TRUE, abs(input$non_zero_scaleoftheory),abs(input$scaleoftheory)),
              abs(log(input$odds_scaleoftheory))),
       
       # Two tailed if tails is "either", one tailed if "positive" or "negative"
