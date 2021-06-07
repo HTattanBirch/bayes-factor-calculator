@@ -228,18 +228,16 @@ side_inputs_ui <- sidebarPanel(
       # Tails: Number of tails, negate if predicts negative
       conditionalPanel('input.odds_question === false', box(id="tails_withoutodds",width="800px", 
                 radioButtons("tails", label = tagList(
-                         tags$span("Does your hypothesis predict mean differences that are positive, negative, or either?"), 
+                         tags$span("One- or two-tailed test?"), 
                          tags$span(icon("info-circle"), id = "tails_icon")), 
-                                 c("Positive (1-tailed)" = "pos",
-                                 "Negative (1-tailed)" = "neg",
-                                 "Either (2-tailed)" = "eit"), selected = c("eit")))),
+                                 c("One-tailed" = "one",
+                                 "Two-tailed" = "two"), selected = c("two")))),
       conditionalPanel('input.odds_question === true', box(id="tails_withodds",width="800px", 
                 radioButtons("odds_tails", label = tagList(
-                         tags$span("Does your hypothesis predict an odds/risk ratio greater than 1, less than 1, or either?"), 
+                         tags$span("One- or two-tailed test?"), 
                          tags$span(icon("info-circle"), id = "oddstails_icon")), 
-                                  c("Greater than 1 (1-tailed)" = "pos",
-                                  "Less than 1 (1-tailed)" = "neg",
-                                  "Either (2-tailed)" = "eit"), selected = c("eit")))))),
+                                  c("One-tailed" = "one",
+                                  "Two-tailed" = "two"), selected = c("two")))))),
 
   ###  TOOLTIPS  ###
   bsTooltip("detailed_icon", 
@@ -305,25 +303,25 @@ side_inputs_ui <- sidebarPanel(
   
   # Mode of theory
   bsTooltip("modeoftheory_icon", 
-            title="If non-zero, hypothesised mean difference should instead be interpreted as scale/standard deviation of hypothesis", placement = "right", trigger = "hover",
+            title="Mode of the distribution for the alternative hypothesis. Usually zero, as small effects tend to be more probable.", placement = "right", trigger = "hover",#If non-zero, hypothesised mean difference should instead be interpreted as scale/standard deviation of hypothesis
             options = NULL),
   
   # Scale of theory
   bsTooltip("scaleoftheory_icon", 
-            title="The absolute value of this will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
+            title="Hypothesised mean difference between groups or regression coefficent B. Detail: The absolute value of this will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
   # If non-zero mode
   bsTooltip("non_zero_scaleoftheory_icon", 
-            title="This will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
+            title="Detail: This will be used as the scale/standard deviation for the model of your hypothesis.", placement = "right", trigger = "hover",
             options = NULL),
   
   # One of two tailed??
   bsTooltip("tails_icon", 
-            title="Use either for 2-tailed tests, when your theory predicts a difference between conditions that could go in either direction. (Detail: sample mean difference negated if negative selected)", placement = "right", trigger = "hover",
+            title="Use one-tailed test when your theory predicts a difference in a specific direction.", placement = "right", trigger = "hover",
             options = NULL),
   
   bsTooltip("oddstails_icon", 
-            title="Use either for 2-tailed tests, when your theory predicts an association that could go in either direction. (Detail: log of sample OR/RR negated if negative selected)", placement = "right", trigger = "hover",
+            title= "Use one-tailed test when your theory predicts an effect in a specific direction.", placement = "right", trigger = "hover",
             options = NULL),
   
   ###  SUBMIT  ###
@@ -486,9 +484,9 @@ server <- function(input, output, session) {
       obtained = ifelse(
              input$odds_question == FALSE, 
                         # Negate mean difference if negative hypothesised effect in tails
-                        ifelse(input$tails == "neg", -input$obtained, input$obtained),
+                        ifelse(input$tails == "one" & input$scaleoftheory<0, -input$obtained, input$obtained),
                         # Negate log-odds if negative hypothesised effect in tails
-                        ifelse(input$odds_tails == "neg",-log(input$odds), log(input$odds))),
+                        ifelse(input$odds_tails == "one" & log(input$odds_scaleoftheory)<0,-log(input$odds), log(input$odds))),
       dfdata=input$dfdata,
       likelihood = input$likelihood,
       modeloftheory= input$modeloftheory,
@@ -506,8 +504,8 @@ server <- function(input, output, session) {
       
       # Two tailed if tails is "either", one tailed if "positive" or "negative"
       tail = ifelse(input$odds_question == FALSE,
-                    ifelse(input$tails=="eit",2,1),
-                    ifelse(input$odds_tails=="eit",2,1)),
+                    ifelse(input$tails=="two",2,1),
+                    ifelse(input$odds_tails=="two",2,1)),
       dftheory = input$dftheory)
     
     # Put Bf result in data frame

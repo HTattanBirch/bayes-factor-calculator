@@ -35,6 +35,13 @@ Bayes factors allow you to determine whether your data (i) provide evidence for 
 
 P-values do not allow this, as they conflate evidence for no effect and inconclusive evidence. A non-significant p-value therefore does not prove there is no effect, [despite many scientists believing they do](https://doi.org/10.1038/d41586-019-00857-9). In fact, it does not even imply you should reduce your belief in the hypothesis you are testing. To determine how your beliefs should change, you must first calculate a Bayes factor.^[2]
 
+***
+
+#### How do I report Bayes factors in my paper?
+
+The following papers give some examples of how to report Bayes factors: 
+> http://sro.sussex.ac.uk/id/eprint/73508/ 
+> https://doi.org/10.1177/2055207619880676
 
 
 ***
