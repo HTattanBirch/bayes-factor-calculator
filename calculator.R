@@ -13,6 +13,8 @@
 #                                              #
 ################################################
 
+library(memisc) 
+
 
 Bf<-function(sd, obtained, dfdata = 1, likelihood = c("normal", "t"), modeloftheory= c("normal","t","cauchy", "uniform") ,lower =0, upper=1, modeoftheory = 0, scaleoftheory = 1, dftheory = 1, tail = 2)
 {
@@ -354,6 +356,7 @@ main_panel_ui <- mainPanel(
           # Output tab: This shows the Bayes factor, once submit button clicked
           tabPanel("Output",
              
+                   
              # Heading: Heading with horizontal rule <hr> to match interpretation.md
              HTML("<hr> <h4>Output from calculator</h4>"),
              
@@ -364,8 +367,13 @@ main_panel_ui <- mainPanel(
              #HTML("Enter results from your study and specify your hypothesis. Then press 'calculate' to show your Bayes factor below."),
              
              # Bf output: Table of the Bayes factor calculated from Bf
-             div(tableOutput('tabledata'), digits=3,style="font-size:150%")#,
+             div(tableOutput('tabledata'), digits=3,style="font-size:150%"),#,
              
+             # Video: Instructional video
+             HTML("<hr> <h4>Video guide</h4>"),
+             
+             # Embed video
+             HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/r5kSsys7wjI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
              # Explanation
              #HTML("<hr> <h4>Confused?<h4>\n"),
              
